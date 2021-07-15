@@ -17,22 +17,59 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Page Heading -->
-            <h1 class="h3 mb-4 text-gray-800">Category Page</h1>
+            <h1 class="h3 mb-4 text-gray-800">Lists Categories</h1>
           </div>
-          
-          <%- include('table') %> 
+
+          <div class="container-fluid">
+            <a 
+              class="btn btn-primary"
+              href="#"
+              data-toggle="modal"
+              data-target="#addModal"
+            >
+              Add Category
+            </a>
+
+          <% if (message.length > 0) { %>
+            <div class="alert alert-success mt-4" role="alert"><%= message %></div>
+          <% } %>
+
+          </div>
+
+          <%- include('./table.ejs') %> 
+
 
           <!-- /.container-fluid -->
         </div>
         <!-- End of Main Content -->
         <%- include('../../parts/footer.ejs') %> 
-
         
       </div>
       <!-- End of Content Wrapper -->
-    </div>
-    <%- include('../../parts/modalLogout.ejs') %> 
+    </div>  
+    <%- include('./modalAdd.ejs') %> 
+    <%- include('./modalDelete.ejs') %> 
+    <%- include('./modalEdit.ejs') %> 
     <!-- End of Page Wrapper -->
     <%- include('../../parts/script.ejs') %> 
   </body>
 </html>
+
+<script>
+  $('#dataTable').on('click', '.btn-edit', function() {
+    let id = $(this).data('id');
+    let name = $(this).data('name');
+    console.log(id, name);
+    $('#editModal').modal('show')
+    $('.id').val(id);
+    $('.name').val(name);
+  })
+</script>
+
+<script>
+  $('#dataTable').on('click', '.btn-delete', function() {
+    let id = $(this).data('id');
+    $('#deleteModal').modal('show')
+    $('.id').val(id);
+  })
+</script>

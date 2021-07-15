@@ -2,15 +2,18 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 const logger = require("morgan");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const methodOverride = require('method-override');
 
-mongoose.connect("mongodb://localhost:27017/mahasiswa", {
+mongoose.connect("mongodb://localhost:27017/homeStay", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
-  useFindAndModify: true
+  useFindAndModify: true,
 });
 
 const db = mongoose.connection;
@@ -21,7 +24,7 @@ db.once("open", function () {
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const adminRouter = require('./routes/admin');
+const adminRouter = require("./routes/admin");
 
 const app = express();
 
@@ -30,11 +33,27 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/sb-admin', express.static(path.join(__dirname, "node_modules/startbootstrap-sb-admin-2")))
+app.use(
+  "/sb-admin",
+  express.static(path.join(__dirname, "node_modules/startbootstrap-sb-admin-2"))
+);
+
+app.use(cookieParser("secret"));
+
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 6000 },
+  })
+);
+
+app.use(flash());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
