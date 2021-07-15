@@ -11,7 +11,7 @@ const adminBookingController = require('../controller/admin/booking');
 router.get('/', adminController.dahsboardView);
 
 router.get('/category', adminCategoryController.categoryView);
-router.post('/category/add', adminCategoryController.addCategory);
+router.post('/category', adminCategoryController.addCategory);
 router.delete('/category', adminCategoryController.deleteCategory);
 router.put('/category', adminCategoryController.editCategory);
 
