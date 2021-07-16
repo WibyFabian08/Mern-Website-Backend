@@ -1,11 +1,4 @@
-const express = require("express");
-const flash = require("connect-flash");
-
 const Category = require("../../model/Category");
-
-const app = express();
-
-app.use(flash());
 
 exports.categoryView = (req, res) => {
   Category.find()
@@ -13,8 +6,8 @@ exports.categoryView = (req, res) => {
       res.render("admin/category", {
         data: result,
         message: req.flash("message"),
-        title: 'Category Page',
-        status: req.flash('status')
+        title: "Category Page",
+        status: req.flash("status"),
       });
     })
     .catch((err) => {
@@ -51,17 +44,21 @@ exports.addCategory = async (req, res) => {
   }
 };
 
-exports.deleteCategory = (req, res) => {
-  const id = req.body.id;
-  Category.deleteOne({ _id: id })
-    .then(() => {
-      req.flash("message", "Delete Category Success");
-      req.flash("status", "success");
+exports.deleteCategory = async (req, res) => {
+  try {
+    const id = req.body.id;
+    await Category.deleteOne({ _id: id });
+
+    req.flash("message", "Delete Category Success");
+    req.flash("status", "success");
+    res.redirect("/admin/category");
+  } catch (error) {
+    if (error) {
+      req.flash("message", "Delete Category Failde");
+      req.flash("status", "danger");
       res.redirect("/admin/category");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    }
+  }
 };
 
 exports.editCategory = async (req, res) => {

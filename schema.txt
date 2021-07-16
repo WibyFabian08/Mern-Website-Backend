@@ -56,6 +56,6 @@ booking: {
 bank: {
     nameBank: string,
     noRekening: string,
-    nameL string,
+    name: string,
     image: string
 }

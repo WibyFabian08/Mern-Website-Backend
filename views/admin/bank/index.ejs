@@ -18,6 +18,10 @@
           <div class="container-fluid">
             <!-- Page Heading -->
             <h1 class="h3 mb-4 text-gray-800">Lists Bank</h1>
+
+            <a href="" data-toggle="modal" data-target="#addModal" class="btn btn-primary">Add Bank</a>
+
+            <%- include('./message.ejs') %>
           </div>
           
           <%- include('table') %> 
@@ -31,8 +35,35 @@
       </div>
       <!-- End of Content Wrapper -->
     </div>
-    <%- include('../../parts/modalLogout.ejs') %> 
+    <%- include('./modalAdd.ejs') %> 
+    <%- include('./modalEdit.ejs') %> 
+    <%- include('./modalDelete.ejs') %> 
     <!-- End of Page Wrapper -->
     <%- include('../../parts/script.ejs') %> 
   </body>
 </html>
+
+<script>
+  $('#dataTable').on('click', '.btn-edit', function() {
+    let id = $(this).data('id');
+    let name = $(this).data('name');
+    let bank = $(this).data('bank');
+    let no = $(this).data('no');
+    let image = $(this).data('image');
+
+    $('#editModal').modal('show')
+    $('.id').val(id);
+    $('.name').val(name);
+    $('.bank').val(bank);
+    $('.no').val(no);
+    $('.image').val(image);
+  })
+</script>
+
+<script>
+  $('#dataTable').on('click', '.btn-delete', function() {
+    let id = $(this).data('id');
+    $('#deleteModal').modal('show')
+    $('.id').val(id);
+  })
+</script>
