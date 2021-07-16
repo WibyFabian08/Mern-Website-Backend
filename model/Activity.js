@@ -24,6 +24,10 @@ const Activity = new Schema(
       type: Objectid,
       ref: "Image",
     }],
+    itemId: [{
+      type: ObjectId,
+      ref: 'Item'
+    }]
   },
   {
     timestamps: true,

@@ -14,6 +14,10 @@ const Facility = new Schema({
     imageId: [{
         type: ObjectId,
         ref: 'Image'
+    }],
+    itemId: [{
+        type: ObjectId,
+        ref: 'Item'
     }]
 }, {
     timestamps: true

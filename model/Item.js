@@ -24,13 +24,13 @@ const Item = new Schema({
         required: true
     },
     isPopular: {
-        stype: Boolean,
+        type: Boolean,
         required: true
     },
-    categoryId: [{
-        trpe: ObjectId,
+    categoryId: {
+        type: ObjectId,
         ref: 'Category'
-    }],
+    },
     activityId: [{
         type: ObjectId,
         ref: 'Activity'

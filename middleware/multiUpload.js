@@ -1,5 +1,5 @@
 const multer = require("multer");
-const path = require('path');
+const path = require("path");
 
 // tentukan storage
 const storage = multer.diskStorage({
@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() +  path.extname(file.originalname));
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
@@ -25,8 +25,8 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({ storage: storage, fileFilter: fileFilter }).single(
+const multiUpload = multer({ storage: storage, fileFilter: fileFilter }).array(
   "image"
 );
 
-module.exports = upload;
+module.exports = multiUpload;
