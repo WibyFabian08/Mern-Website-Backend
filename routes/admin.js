@@ -27,6 +27,7 @@ router.post('/item', multiUpload, adminItemController.itemAdd);
 router.delete('/item', adminItemController.itemDelete);
 router.get('/item/:id', adminItemController.itemEdit);
 router.delete('/item/delete', adminItemController.deleteImage);
+router.put('/item/update', multiUpload, adminItemController.updateItem);
 
 
 

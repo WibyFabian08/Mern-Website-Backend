@@ -1,6 +1,6 @@
 <h1 class="h3 mb-4 text-gray-800 mt-4">Edit Item</h1>
 <form
-  action="/admin/item"
+  action="/admin/item/update?_method=PUT"
   class="form-group"
   method="POST"
   enctype="multipart/form-data"
@@ -8,6 +8,13 @@
   <div class="card" id="card-edit">
     <div class="card-body">
       <div class="form-group">
+        <input
+          type="hidden"
+          name="id"
+          class="form-control"
+          value="<%= item.id %>"
+          placeholder="type here..."
+        />
         <label for="title">Title</label>
         <input
           type="text"
@@ -73,6 +80,7 @@
       <div class="form-group">
         <label for="popular">Popular</label>
         <select name="popular" class="form-control" id="">
+          <option value="<%= item.isPopular %>"><%= item.isPopular %></option>
           <option value="true">True</option>
           <option value="false">False</option>
         </select>

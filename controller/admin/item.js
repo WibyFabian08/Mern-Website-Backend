@@ -17,8 +17,8 @@ exports.itemView = async (req, res, next) => {
 
 exports.itemAdd = async (req, res) => {
   try {
-    const category = await Category.findOne({_id: req.body.category});
-    console.log(category)
+    const category = await Category.findOne({ _id: req.body.category });
+    console.log(category);
     const newItem = {
       title: req.body.title,
       city: req.body.city,
@@ -35,7 +35,7 @@ exports.itemAdd = async (req, res) => {
     for (let i = 0; i < req.files.length; i++) {
       const imageSave = await Image.create({
         imageUrl: `images/${req.files[i].filename}`,
-        itemId: item._id
+        itemId: item._id,
       });
       item.imageId.push({ _id: imageSave._id });
       await item.save();
@@ -83,45 +83,80 @@ exports.itemDelete = async (req, res) => {
 exports.itemEdit = async (req, res) => {
   const id = req.params.id;
   const category = await Category.find();
-  const item = await Item.findOne({_id: id});
-  const categoryId = await Category.findOne({_id: item.categoryId});
-  
+  const item = await Item.findOne({ _id: id });
+  const categoryId = await Category.findOne({ _id: item.categoryId });
+
   let images;
-  for(let i = 0; i < item.imageId.length; i++) {
-    const poto = await Image.find({_id: item.imageId})
+  for (let i = 0; i < item.imageId.length; i++) {
+    const poto = await Image.find({ _id: item.imageId });
     images = poto;
   }
 
-  res.render('admin/item/editItem', {
-    title: 'Edit Item',
+  res.render("admin/item/editItem", {
+    title: "Edit Item",
     category: category,
     item: item,
     categoryId: categoryId,
-    images: images
+    images: images,
   });
 };
 
 exports.deleteImage = async (req, res) => {
-  const imageId = req.body.image;
-  const id = req.body.id;
-  
-  let item = await Item.findOne({_id: id});
-  const imageUpdate = [];
+  try {
+    const imageId = req.body.image;
+    const id = req.body.id;
 
-  const imageDeleted = await Image.findOne({_id: imageId});
+    let item = await Item.findOne({ _id: id });
+    const imageUpdate = [];
 
-  let path = `public/${imageDeleted.imageUrl}`;
-  fs.unlink(path, (err) => console.log(err));
+    const imageDeleted = await Image.findOne({ _id: imageId });
 
-  await Image.deleteOne({_id: imageDeleted._id});
+    let path = `public/${imageDeleted.imageUrl}`;
+    fs.unlink(path, (err) => console.log(err));
 
-  const image = await Image.find({itemId: id});
-  for(let i = 0; i < image.length; i++) {
-    imageUpdate.push(image[i]._id)
+    await Image.deleteOne({ _id: imageDeleted._id });
+
+    const image = await Image.find({ itemId: id });
+    for (let i = 0; i < image.length; i++) {
+      imageUpdate.push(image[i]._id);
+    }
+
+    item.imageId = imageUpdate;
+    await item.save();
+
+    res.redirect("/admin/item");
+  } catch (error) {
+    res.redirect("/admin/item");
+  }
+};
+
+exports.updateItem = async (req, res) => {
+  const category = await Category.findOne({ _id: req.body.category });
+  let item = await Item.findOne({ _id: req.body.id });
+
+  item.title = req.body.title;
+  item.city = req.body.city;
+  item.country = req.body.country;
+  item.categoryId = req.body.category;
+  item.description = req.body.description;
+  item.price = req.body.price;
+  item.isPopular = req.body.popular;
+
+  if (req.files.length > 0) {
+    console.log(req.files);
+    // insert image ke Image
+    for (let i = 0; i < req.files.length; i++) {
+      const imageSave = await Image.create({
+        imageUrl: `images/${req.files[i].filename}`,
+        itemId: item._id,
+      });
+      item.imageId.push({ _id: imageSave._id });
+    }
   }
 
-  item.imageId = imageUpdate;
+  console.log(item);
+  console.log(category);
   await item.save();
 
   res.redirect("/admin/item");
-}
+};
