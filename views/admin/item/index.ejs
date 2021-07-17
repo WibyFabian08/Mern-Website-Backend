@@ -28,6 +28,7 @@
             </ul>
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="item" role="tabpanel" aria-labelledby="home-tab">
+                <%- include('./message.ejs') %>
                 <%- include('./table.ejs') %> 
               </div>
                 <%- include('./addItem.ejs') %> 
@@ -44,8 +45,16 @@
       </div>
       <!-- End of Content Wrapper -->
     </div>
-    <%- include('../../parts/modalLogout.ejs') %> 
+    <%- include('./modalDelete.ejs') %> 
     <!-- End of Page Wrapper -->
     <%- include('../../parts/script.ejs') %> 
   </body>
 </html>
+
+<script>
+  $('#dataTable').on('click', '.btn-delete', function() {
+    let id = $(this).data('id');
+    $('#deleteModal').modal('show')
+    $('.id').val(id);
+  })
+</script>

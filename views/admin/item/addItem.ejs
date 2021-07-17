@@ -63,7 +63,7 @@
           <label for="category">Category</label>
           <select name="category" class="form-control" id="">
             <% for( let i = 0; i < category.length; i++ ) { %>
-            <option value="<%= category[i]._id %> ">
+            <option value=<%= category[i]._id %>>
               <%= category[i].name %>
             </option>
             <% } %>

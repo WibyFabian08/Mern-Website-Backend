@@ -17,14 +17,32 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                </tr> -->
+        <% data.forEach((data, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= data.title %></td>
+            <td><%= data.price %></td>
+            <td><%= data.country %></td>
+            <td><%= data.city %></td>
+            <td class="text-center">
+              <a
+                class="btn btn-success btn-edit"
+                href="/admin/item/<%= data._id %> "
+              >
+                Edit
+              </a>
+              |
+              <a
+                class="btn btn-danger btn-delete"
+                href="#"
+                type="button"
+                data-id="<%= data._id %>"
+              >
+                Delete
+              </a>
+            </td>
+          </tr>
+          <% }) %>
       </tbody>
     </table>
   </div>

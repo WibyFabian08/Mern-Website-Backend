@@ -24,6 +24,9 @@ router.put('/bank', singeUpload, adminBankController.upadateBank);
 
 router.get('/item', adminItemController.itemView);
 router.post('/item', multiUpload, adminItemController.itemAdd);
+router.delete('/item', adminItemController.itemDelete);
+router.get('/item/:id', adminItemController.itemEdit);
+router.delete('/item/delete', adminItemController.deleteImage);
 
 
 

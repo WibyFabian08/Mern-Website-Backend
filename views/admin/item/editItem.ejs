@@ -1,0 +1,49 @@
+<%- include('../../parts/header.ejs') %> 
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <%- include('../../parts/sidebar.ejs') %> 
+      
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+
+          <%- include('../../parts/navbar.ejs') %> 
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            
+            <%- include('./editForm.ejs') %> 
+            
+          </div>
+
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+        <%- include('../../parts/footer.ejs') %> 
+
+        
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <%- include('./modalDelete.ejs') %>
+    <!-- End of Page Wrapper -->
+    <%- include('../../parts/script.ejs') %> 
+  </body>
+</html>
+
+<script>
+  $('#card-edit').on('click', '.btn-delete', function() {
+    let image = $(this).data('image');
+    let id = $(this).data('id');
+    $('#deleteImage').modal('show')
+    $('.image').val(image);
+    $('.id').val(id);
+  })
+</script>
+
+
+

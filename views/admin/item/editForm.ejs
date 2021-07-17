@@ -1,0 +1,111 @@
+<h1 class="h3 mb-4 text-gray-800 mt-4">Edit Item</h1>
+<form
+  action="/admin/item"
+  class="form-group"
+  method="POST"
+  enctype="multipart/form-data"
+>
+  <div class="card" id="card-edit">
+    <div class="card-body">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          class="form-control"
+          value="<%= item.title %>"
+          placeholder="type here..."
+        />
+      </div>
+      <div class="form-group">
+        <label for="city">City</label>
+        <input
+          type="text"
+          name="city"
+          class="form-control"
+          value="<%= item.city %>"
+          placeholder="type here..."
+        />
+      </div>
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input
+          type="text"
+          name="country"
+          class="form-control"
+          value="<%= item.country %>"
+          placeholder="type here..."
+        />
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input
+          type="number"
+          name="price"
+          class="form-control"
+          value="<%= item.price %>"
+          placeholder="type here..."
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          name="description"
+          id="description"
+          class="form-control"
+          value=<%- item.description -%>
+        ></textarea
+        >
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select name="category" class="form-control" id="">
+          <option value="<%= categoryId.id %>" selected>
+            <%= categoryId.name %>
+          </option>
+          <% for( let i = 0; i < category.length; i++ ) { %>
+          <option value="<%= category[i]._id %> ">
+            <%= category[i].name %>
+          </option>
+          <% } %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="popular">Popular</label>
+        <select name="popular" class="form-control" id="">
+          <option value="true">True</option>
+          <option value="false">False</option>
+        </select>
+      </div>
+      <div class="form-group mt-4">
+          <div class="row d-flex flex-start align-item-center">
+            <% for( let i = 0; i < images.length; i++ ) { %>
+            <div class="w-25 ml-3 mr-3 mb-4 position-relative">
+                <a href="#" class="bg-danger btn-delete rounded-circle px-2 py-1 position-absolute text-white" data-image="<%= images[i]._id %>" data-id="<%= item._id %>" style="right: 0; text-decoration: none;">
+                    X
+                </a>
+                <img src="http://localhost:3000/<%= images[i].imageUrl %>" alt="" class="w-100">
+            </div>
+            <% } %>
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="image">Add Images</label>
+        <input type="file" name="image" class="form-control-file" multiple />
+      </div>
+      <div class="row">
+        <div class="form-group ml-auto">
+          <button type="submit" class="btn btn-primary">Save Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<%- include('./modalDeleteImage.ejs') %>
+
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+<script>
+  CKEDITOR.replace("description");
+</script>
+
