@@ -123,40 +123,53 @@ exports.deleteImage = async (req, res) => {
 
     item.imageId = imageUpdate;
     await item.save();
-
-    res.redirect("/admin/item");
+    req.flash("message", "Delete Image Success");
+    req.flash("status", "success");
+    res.redirect(`/admin/item`);
   } catch (error) {
-    res.redirect("/admin/item");
+    req.flash("message", "Delete Image Failed");
+    req.flash("status", "danger");
+    res.redirect(`/admin/item`);
   }
 };
 
 exports.updateItem = async (req, res) => {
-  const category = await Category.findOne({ _id: req.body.category });
-  let item = await Item.findOne({ _id: req.body.id });
+  try {
+    const category = await Category.findOne({ _id: req.body.category });
+    let item = await Item.findOne({ _id: req.body.id });
 
-  item.title = req.body.title;
-  item.city = req.body.city;
-  item.country = req.body.country;
-  item.categoryId = req.body.category;
-  item.description = req.body.description;
-  item.price = req.body.price;
-  item.isPopular = req.body.popular;
+    item.title = req.body.title;
+    item.city = req.body.city;
+    item.country = req.body.country;
+    item.categoryId = req.body.category;
+    item.description = req.body.description;
+    item.price = req.body.price;
+    item.isPopular = req.body.popular;
 
-  if (req.files.length > 0) {
-    console.log(req.files);
-    // insert image ke Image
-    for (let i = 0; i < req.files.length; i++) {
-      const imageSave = await Image.create({
-        imageUrl: `images/${req.files[i].filename}`,
-        itemId: item._id,
-      });
-      item.imageId.push({ _id: imageSave._id });
+    if (req.files.length > 0) {
+      console.log(req.files);
+      // insert image ke Image
+      for (let i = 0; i < req.files.length; i++) {
+        const imageSave = await Image.create({
+          imageUrl: `images/${req.files[i].filename}`,
+          itemId: item._id,
+        });
+        item.imageId.push({ _id: imageSave._id });
+      }
+    }
+
+    await item.save();
+
+    req.flash("message", "Edit Item Success");
+    req.flash("status", "success");
+
+    res.redirect("/admin/item");
+  } catch (error) {
+    if (error) {
+      req.flash("message", "Edit Item Failed");
+      req.flash("status", "danger");
+
+      res.redirect("/admin/item");
     }
   }
-
-  console.log(item);
-  console.log(category);
-  await item.save();
-
-  res.redirect("/admin/item");
 };
