@@ -16,7 +16,7 @@ const Activity = new Schema(
       type: Boolean,
       required: true,
     },
-    imageId: {
+    imageUrl: {
       type: String,
       required: true,
     },

@@ -2,6 +2,7 @@ const Category = require("../../model/Category");
 const Image = require("../../model/Image");
 const Item = require("../../model/Item");
 const Facility = require("../../model/Facility");
+const Activity = require("../../model/Activity");
 const fs = require("fs");
 
 exports.itemView = async (req, res, next) => {
@@ -44,7 +45,7 @@ exports.itemAdd = async (req, res) => {
     req.flash("status", "success");
     res.redirect("/admin/item");
   } catch (error) {
-    req.flash("message", "Add Item Failed");
+    req.flash("message", `Add Item Failed ${error.message}`);
     req.flash("status", "danger");
     res.redirect("/admin/item");
   }
@@ -72,7 +73,7 @@ exports.itemDelete = async (req, res) => {
     res.redirect("/admin/item");
   } catch (error) {
     if (error) {
-      req.flash("message", "Delete Item Failed");
+      req.flash("message", `Delete Item Failed ${error.message}`);
       req.flash("status", "danger");
       res.redirect("/admin/item");
     }
@@ -128,7 +129,7 @@ exports.deleteImage = async (req, res) => {
     req.flash("status", "success");
     res.redirect(`/admin/item/${id}`);
   } catch (error) {
-    req.flash("message", "Delete Image Failed");
+    req.flash("message", `Delete Image Failed ${error.message}`);
     req.flash("status", "danger");
     res.redirect(`/admin/item/${id}`);
   }
@@ -166,7 +167,7 @@ exports.updateItem = async (req, res) => {
     res.redirect(`/admin/item/${req.body.id}`);
   } catch (error) {
     if (error) {
-      req.flash("message", "Edit Item Failed");
+      req.flash("message", `Edit Item Failed ${error.message}`);
       req.flash("status", "danger");
 
       res.redirect(`/admin/item/${req.body.id}`);
@@ -211,7 +212,7 @@ exports.addFacility = async (req, res) => {
     res.redirect(`/admin/item/facility/${req.body.params}`);
   } catch (error) {
     if (error) {
-      req.flash("message", "Add Facility Failde");
+      req.flash("message", `Add Facility Failed ${error.message}`);
       req.flash("status", "danger");
       res.redirect(`/admin/item/facility/${req.body.params}`);
     }
@@ -243,7 +244,7 @@ exports.deleteFacility = async (req, res) => {
     res.redirect(`/admin/item/facility/${req.body.params}`);
   } catch (error) {
     if (error) {
-      req.flash("message", "Delete Facility Failed");
+      req.flash("message", `Delete Activity Failed ${error.message}`);
       req.flash("status", "danger");
       res.redirect(`/admin/item/facility/${req.body.params}`);
     }
@@ -268,8 +269,112 @@ exports.updateFacility = async (req, res) => {
     req.flash("status", "success");
     res.redirect(`/admin/item/facility/${req.body.params}`);
   } catch (error) {
-    req.flash("message", "Update Facility Failed");
+    req.flash("message", `Update Facility Failed ${error.message}`);
     req.flash("status", "danger");
     res.redirect(`/admin/item/facility/${req.body.params}`);
+  }
+};
+
+exports.showActivity = async (req, res) => {
+  const activity = await Activity.find({ itemId: req.params.id });
+  res.render("./admin/item/detail/activity", {
+    title: "Item Activity",
+    params: req.params.id,
+    status: req.flash("status"),
+    message: req.flash("message"),
+    activity: activity,
+  });
+};
+
+exports.addActivity = async (req, res) => {
+  try {
+    const item = await Item.findOne({ _id: req.body.params });
+
+    const newActivity = {
+      name: req.body.name,
+      type: req.body.type,
+      isPopular: req.body.popular,
+      imageUrl: `images/${req.file.filename}`,
+      itemId: item._id,
+    };
+
+    const activity = await Activity.create(newActivity);
+
+    item.activityId.push(activity._id);
+    await item.save();
+
+    req.flash("message", "Add Activity Success");
+    req.flash("status", "success");
+    res.redirect(`/admin/item/activity/${req.body.params}`);
+  } catch (error) {
+    if (error) {
+      req.flash("message", `Add Activity Failed ${error.message}`);
+      req.flash("status", "danger");
+      res.redirect(`/admin/item/activity/${req.body.params}`);
+    }
+  }
+};
+
+exports.deleteActivity = async (req, res) => {
+  try {
+    const activity = await Activity.findOne({ _id: req.body.id });
+    let item = await Item.findOne({ _id: req.body.params });
+
+    await Activity.deleteOne({ _id: activity._id });
+
+    const activityImage = await Activity.find({ itemId: req.body.params });
+
+    const activityId = [];
+    for (let i = 0; i < activityImage.length; i++) {
+      activityId.push(activityImage[i]._id);
+    }
+
+    let path = `public/${activity.imageUrl}`;
+    fs.unlink(path, (err) => console.log(err));
+
+    item.activityId = activityId;
+    await item.save();
+
+    req.flash("message", "Delete Activity Success");
+    req.flash("status", "success");
+
+    res.redirect(`/admin/item/activity/${req.body.params}`);
+  } catch (error) {
+    if (error) {
+      req.flash("message", `Delete Activity Failed ${error.message}`);
+      req.flash("status", "danger");
+      res.redirect(`/admin/item/activity/${req.body.params}`);
+    }
+  }
+};
+
+exports.updateActivity = async (req, res) => {
+  try {
+    const activity = await Activity.findOne({ _id: req.body.id });
+
+    activity.name = req.body.name;
+    activity.type = req.body.type;
+    if (req.body.popular) {
+      activity.isPopular = req.body.popular;
+    }
+
+    if (req.file) {
+      let path = `public/${activity.imageUrl}`;
+      fs.unlink(path, (err) => console.log(err));
+      activity.imageUrl = `images/${req.file.filename}`;
+    }
+
+
+    await activity.save();
+
+    req.flash("message", "Update Activity Success");
+    req.flash("status", "success");
+    res.redirect(`/admin/item/activity/${req.body.params}`);
+  } catch (error) {
+    if (error) {
+      req.flash("message", `Delete Activity Failed ${error.message}`);
+      req.flash("status", "danger");
+      res.redirect(`/admin/item/activity/${req.body.params}`);
+    }
   }
 };

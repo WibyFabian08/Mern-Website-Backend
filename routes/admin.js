@@ -28,11 +28,17 @@ router.get('/admin/item/:id', adminItemController.itemEdit);
 router.delete('/admin/item/delete', adminItemController.deleteImage);
 router.put('/admin/item/update', multiUpload, adminItemController.updateItem);
 
-// detail iten endpoint
+// detail facility endpoint
 router.get('/admin/item/facility/:id', adminItemController.showFacility);
 router.post('/admin/item/facility/:id', singeUpload, adminItemController.addFacility);
 router.delete('/admin/item/facility/delete', adminItemController.deleteFacility);
 router.put('/admin/item/facility/update', singeUpload, adminItemController.updateFacility);
+
+// detail activity endpoint
+router.get('/admin/item/activity/:id', adminItemController.showActivity);
+router.post('/admin/item/activity/:id', singeUpload, adminItemController.addActivity);
+router.delete('/admin/item/activity/delete', adminItemController.deleteActivity);
+router.put('/admin/item/activity/update', singeUpload, adminItemController.updateActivity);
 
 
 router.get('/admin/booking', multiUpload, adminBookingController.bookingView);
