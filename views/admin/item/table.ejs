@@ -13,7 +13,7 @@
           <th>Price</th>
           <th>Country</th>
           <th>City</th>
-          <th>Action</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -21,13 +21,13 @@
           <tr>
             <td><%= index + 1 %></td>
             <td><%= data.title %></td>
-            <td><%= data.price %></td>
+            <td>$ <%= data.price %></td>
             <td><%= data.country %></td>
             <td><%= data.city %></td>
             <td class="text-center">
               <a
                 class="btn btn-success btn-edit"
-                href="/admin/item/<%= data._id %> "
+                href="/admin/item/<%= data._id %>"
               >
                 Edit
               </a>
@@ -39,6 +39,14 @@
                 data-id="<%= data._id %>"
               >
                 Delete
+              </a>
+              |
+              <a
+                class="btn btn-warning btn-detail"
+                href="/admin/item/facility/<%= data._id %>"
+                data-id="<%= data._id %>"
+              >
+                Facility
               </a>
             </td>
           </tr>

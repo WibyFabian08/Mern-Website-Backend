@@ -1,0 +1,61 @@
+<!-- Logout Modal-->
+<div
+  class="modal fade"
+  id="modalEditFacility"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update facility</h5>
+        <button
+          class="close"
+          type="button"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form action="/admin/item/facility/update?_method=PUT" method="POST" class="form-group" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Facility Name</label>
+                <input type="text" name="name" class="form-control name" placeholder="Type here..." />
+            </div>
+            <div class="form-group">
+                <label for="qty">Quantity</label>
+                <input type="number" name="quantity" class="form-control qty" placeholder="Type here..." />
+            </div>
+            <div class="form-group">
+                <label for="image">Facility Image</label>
+                <input type="file" name="image" class="form-control-file" placeholder="Choose Image..." />
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">
+            Cancel
+          </button>
+          <input
+            type="hidden"
+            name="id"
+            name="id"
+            class="form-control id"
+            placeholder="Type here..."
+          />
+          <input
+            type="hidden"
+            name="params"
+            name="params"
+            class="form-control params"
+            placeholder="Type here..."
+          />
+          <button type="submit" class="btn btn-primary">Update Facility</btn>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

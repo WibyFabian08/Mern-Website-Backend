@@ -1,4 +1,4 @@
-const mongoose = required('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const {ObjectId} = mongoose.Schema;
 
@@ -11,14 +11,14 @@ const Facility = new Schema({
         type: Number,
         required: true
     },
-    imageId: [{
-        type: ObjectId,
-        ref: 'Image'
-    }],
-    itemId: [{
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    itemId: {
         type: ObjectId,
         ref: 'Item'
-    }]
+    }
 }, {
     timestamps: true
 })

@@ -56,13 +56,7 @@
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <textarea
-          name="description"
-          id="description"
-          class="form-control"
-          value=<%- item.description -%>
-        ></textarea
-        >
+        <textarea name="description" id="description" class="form-control" value=<%- item.description -%>></textarea>
       </div>
       <div class="form-group">
         <label for="category">Category</label>
@@ -71,7 +65,7 @@
             <%= categoryId.name %>
           </option>
           <% for( let i = 0; i < category.length; i++ ) { %>
-          <option value="<%= category[i]._id %> ">
+          <option value="<%= category[i]._id %>">
             <%= category[i].name %>
           </option>
           <% } %>
@@ -89,7 +83,7 @@
           <div class="row d-flex flex-start align-item-center">
             <% for( let i = 0; i < images.length; i++ ) { %>
             <div class="w-25 ml-3 mr-3 mb-4 position-relative">
-                <a href="#" class="bg-danger btn-delete rounded-circle px-2 py-1 position-absolute text-white" data-image="<%= images[i]._id %>" data-id="<%= item._id %>" style="right: 0; text-decoration: none;">
+                <a href="#" class="bg-danger img-thumbnail btn-delete rounded-circle px-3 py-2 position-absolute text-white" data-image="<%= images[i]._id %>" data-id="<%= item._id %>" style="right: -3px; top: -3px; text-decoration: none;">
                     X
                 </a>
                 <img src="http://localhost:3000/<%= images[i].imageUrl %>" alt="" class="w-100">

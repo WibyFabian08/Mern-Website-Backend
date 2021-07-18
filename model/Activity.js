@@ -8,10 +8,6 @@ const Activity = new Schema(
       type: String,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
-    },
     type: {
       type: String,
       required: true,
@@ -20,14 +16,14 @@ const Activity = new Schema(
       type: Boolean,
       required: true,
     },
-    imageId: [{
-      type: Objectid,
-      ref: "Image",
-    }],
-    itemId: [{
+    imageId: {
+      type: String,
+      required: true,
+    },
+    itemId: {
       type: ObjectId,
       ref: 'Item'
-    }]
+    }
   },
   {
     timestamps: true,
