@@ -22,7 +22,7 @@ db.once("open", function () {
   console.log("Database sudah Konek");
 });
 
-const indexRouter = require("./routes/index");
+// const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 
@@ -56,8 +56,8 @@ app.use(
 app.use(flash());
 
 // app.use("/", indexRouter);
-app.use("/", adminRouter);
-app.use("/users", usersRouter);
+app.use("/admin", adminRouter);
+app.use("/", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
