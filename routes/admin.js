@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const singeUpload = require('../middleware/singleUpload');
 const multiUpload = require('../middleware/multiUpload');
+const auth = require('../middleware/auth');
 
 const adminController = require('../controller/admin');
 const adminCategoryController = require('../controller/admin/category');
 const adminBankController = require('../controller/admin/bank');
 const adminItemController = require('../controller/admin/item');
 const adminBookingController = require('../controller/admin/booking');
+
+router.use(auth);
 
 router.get('/', adminController.dahsboardView);
 

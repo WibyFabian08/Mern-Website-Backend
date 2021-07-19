@@ -2,11 +2,15 @@ const User = require('../model/User');
 const bcrypt = require('bcryptjs');
 
 exports.loginView = (req, res) => {
-    res.render('index', {
-        title: 'Login Page',
-        message: req.flash("message"),
-        status: req.flash("status"),
-    });
+    if(req.session.user === null || req.session.user === undefined) {
+        res.render('index', {
+            title: 'Login Page',
+            message: req.flash("message"),
+            status: req.flash("status"),
+        });
+    } else {
+        res.redirect('/admin')
+    }
 }
 
 exports.registerView = (req, res) => {
@@ -32,6 +36,12 @@ exports.signIn = async (req, res) => {
         req.flash('status', 'danger');
         res.redirect('/')
     } else {
+        
+        req.session.user = {
+            id: user._id,
+            username: user.userName
+        }
+
         res.redirect('/admin');
     }
 
