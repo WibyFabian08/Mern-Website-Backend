@@ -10,7 +10,7 @@ const adminBankController = require('../controller/admin/bank');
 const adminItemController = require('../controller/admin/item');
 const adminBookingController = require('../controller/admin/booking');
 
-router.use(auth);
+// router.use(auth);
 
 router.get('/', adminController.dahsboardView);
 

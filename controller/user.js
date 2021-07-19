@@ -68,3 +68,8 @@ exports.signUp = async (req, res) => {
         res.redirect('/');
     }
 }
+
+exports.logout = (req, res) => {
+
+    res.redirect('/');
+}
