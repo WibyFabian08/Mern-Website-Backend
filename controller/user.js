@@ -18,14 +18,23 @@ exports.registerView = (req, res) => {
 }
 
 exports.signIn = async (req, res) => {
-    console.log(req.body.username)
-    console.log(req.body.password)
+    const user = await User.findOne({userName: req.body.username});
+    
+    if(user === null) {
+        req.flash('message', 'Login Failed, Account Not Found');
+        req.flash('status', 'danger');
+        res.redirect('/')
+    } 
+    
+    const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+    if(!isValidPassword) {
+        req.flash('message', 'Login Failed, Wrong Password');
+        req.flash('status', 'danger');
+        res.redirect('/')
+    } else {
+        res.redirect('/admin');
+    }
 
-    const password = await bcrypt.hash(req.body.password, 10);
-
-    console.log(password)
-
-    res.redirect('/admin');
 }
 
 exports.signUp = async (req, res) => {
