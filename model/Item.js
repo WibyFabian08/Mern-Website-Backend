@@ -23,9 +23,17 @@ const Item = new Schema({
         type: String,
         required: true
     },
+    unit: {
+        type: String,
+        default: 'night'
+    },
     isPopular: {
         type: Boolean,
-        required: true
+        default: false
+    },
+    sumBooking: {
+        type: Number,
+        default: 0
     },
     categoryId: {
         type: ObjectId,
