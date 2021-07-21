@@ -63,76 +63,55 @@ exports.itemDelete = async (req, res) => {
     const item = await Item.findOne({ _id: id });
     const activity = await Activity.find({ itemId: item._id });
     const facility = await Facility.find({ itemId: item._id });
-    const category = await Category.find({ _id: item.categoryId });
+    const category = await Category.find({ _id: item.categoryId }).select('itemId');
+    let updateCategory = await Category.findOne({ _id: item.categoryId });
     const images = item.imageId;
     let newId = [];
 
-    // for (let i = 0; i < category.length; i++) {
-    //   const itemId = category[i].itemId;
-    //   for (let j = 0; j < itemId.length; j++) {
-    //     const deleteId = itemId.filter((id, index) => {
-    //       return id[j] !== item._id;
-    //     });
-    //     console.log(deleteId);
+    // for(let i = 0; i < category.length; i++) {
+    //   for(let j = 0; j < category[i].itemId.length; j++) {
+    //     if(category[i].itemId[j] != id) {
+    //       newId.push(category[i].itemId[j])
+    //     }
     //   }
     // }
 
-    // const filter = category.find((category) => {
-    //   category.itemId.filter((data) => {
-    //     if(data !== item._id) {
-    //       newId.push(data)
-    //       console.log(data)
-    //       return false
-    //     }
-    //     console.log(data)
-    //   })
-    // })
+    for(let i = 0; i < updateCategory.itemId.length; i++) {
+      if(updateCategory.itemId[i] != id) {
+        newId.push(updateCategory.itemId[i])
+      }
+    }
 
-    // console.log('New id : ', newId);
-
-    // function isSame(value) {
-    //   return value !== item._id
-    // }
-
-    // let filter = category[0].itemId.filter(isSame)
-
-    // console.log(filter)
-
-    // for(let i = 0; i < category.length; i++) {
-    //   console.log(category)
-    //   // if(category[i].itemId === item.categoryId) {
-    //   //   console.log(category[i])
-    //   //   break;
-    //   // }
-
-    //   console.log(filter)
-    // }
+    // delete itemId from category
+    updateCategory.itemId = newId;
+    await updateCategory.save()
 
     // delete facility
-    // for (let i = 0; i < facility.length; i++) {
-    //   console.log(facility[i]._id)
-    //   let path = `public/${facility[i].imageUrl}`;
-    //   fs.unlink(path, (err) => console.log(err));
-    //   await Facility.deleteMany({ _id: facility[i]._id });
-    // }
+    for (let i = 0; i < facility.length; i++) {
+      console.log(facility[i]._id)
+      let path = `public/${facility[i].imageUrl}`;
+      fs.unlink(path, (err) => console.log(err));
+      await Facility.deleteMany({ _id: facility[i]._id });
+    }
 
-    // // delete activity
-    // for (let i = 0; i < activity.length; i++) {
-    //   let path = `public/${activity[i].imageUrl}`;
-    //   fs.unlink(path, (err) => console.log(err));
-    //   await Activity.deleteMany({ _id: activity[i]._id });
-    // }
+    // delete activity
+    for (let i = 0; i < activity.length; i++) {
+      let path = `public/${activity[i].imageUrl}`;
+      fs.unlink(path, (err) => console.log(err));
+      await Activity.deleteMany({ _id: activity[i]._id });
+    }
 
-    // for (let i = 0; i < images.length; i++) {
-    //   const imageDelete = await Image.find({ _id: images[i] });
-    //   for (let j = 0; j < imageDelete.length; j++) {
-    //     let path = `public/${imageDelete[j].imageUrl}`;
-    //     fs.unlink(path, (err) => console.log(err));
-    //     await Image.deleteMany({ _id: images[i] });
-    //   }
-    // }
+    // delete iamge
+    for (let i = 0; i < images.length; i++) {
+      const imageDelete = await Image.find({ _id: images[i] });
+      for (let j = 0; j < imageDelete.length; j++) {
+        let path = `public/${imageDelete[j].imageUrl}`;
+        fs.unlink(path, (err) => console.log(err));
+        await Image.deleteMany({ _id: images[i] });
+      }
+    }
 
-    // await Item.deleteOne({ _id: id });
+    await Item.deleteOne({ _id: id });
 
     req.flash("message", "Delete Item Success");
     req.flash("status", "success");
