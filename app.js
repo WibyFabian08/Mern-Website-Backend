@@ -5,9 +5,10 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const logger = require("morgan");
-const cors = require("cors");
 const mongoose = require("mongoose");
 const methodOverride = require('method-override');
+
+const app = express();
 
 mongoose.connect("mongodb://localhost:27017/homeStay", {
   useNewUrlParser: true,
@@ -27,7 +28,17 @@ const usersRouter = require("./routes/users");
 const adminRouter = require("./routes/admin");
 const apiRouter = require("./routes/api");
 
-const app = express();
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -77,6 +88,6 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-app.use(cors);
+
 
 module.exports = app;

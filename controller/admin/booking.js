@@ -1,4 +1,5 @@
 const Booking = require('../../model/Booking');
+const {MongoClient} = require('mongodb');
 
 exports.bookingView = async (req, res) => {
     const booking = await Booking.find();
