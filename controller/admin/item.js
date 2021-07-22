@@ -303,11 +303,11 @@ exports.updateFacility = async (req, res) => {
     if (req.file) {
       let path = `public/${facility.imageUrl}`;
       fs.unlink(path, (err) => console.log(err));
+      facility.imageUrl = `images/${req.file.filename}`;
     }
 
     facility.name = req.body.name;
     facility.qty = req.body.quantity;
-    facility.imageUrl = `images/${req.file.filename}`;
 
     await facility.save();
     req.flash("message", "Update Facility Success");
@@ -338,7 +338,7 @@ exports.addActivity = async (req, res) => {
     const newActivity = {
       name: req.body.name,
       type: req.body.type,
-      isPopular: req.body.popular,
+      isPopular: false,
       imageUrl: `images/${req.file.filename}`,
       itemId: item._id,
     };
@@ -403,7 +403,7 @@ exports.updateActivity = async (req, res) => {
       activity.isPopular = req.body.popular;
     }
 
-    if (req.file) {
+    if (req.file.length > 0) {
       let path = `public/${activity.imageUrl}`;
       fs.unlink(path, (err) => console.log(err));
       activity.imageUrl = `images/${req.file.filename}`;

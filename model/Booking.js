@@ -16,25 +16,32 @@ const Booking = new Schema(
       type: String,
       required: true,
     },
-    duration: {
-      type: Number,
-      required: true,
+    item: {
+      _id: {
+        type: ObjectId,
+        ref: "Item",
+        required: true
+      },
+      title: {
+        type: String,
+        required: true
+      },
+      price: {
+        type: Number,
+        required: true
+      },
+      duration: {
+        type: Number,
+        required: true,
+      }
     },
     total: {
       type: Number,
       required: true,
     },
-    itemId: {
-      type: ObjectId,
-      ref: "Item",
-    },
     customerId: {
       type: ObjectId,
       ref: "Customer",
-    },
-    bankId: {
-      type: ObjectId,
-      ref: "Bank",
     },
     payments: {
       transferProof: {
@@ -51,7 +58,7 @@ const Booking = new Schema(
       },
       status: {
         type: String,
-        required: true,
+        default: 'Proccess',
       },
     },
   },

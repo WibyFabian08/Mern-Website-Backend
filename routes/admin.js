@@ -43,7 +43,9 @@ router.post('/item/activity/:id', singeUpload, adminItemController.addActivity);
 router.delete('/item/activity/delete', adminItemController.deleteActivity);
 router.put('/item/activity/update', singeUpload, adminItemController.updateActivity);
 
-
-router.get('/admin/booking', multiUpload, adminBookingController.bookingView);
+router.get('/booking', adminBookingController.bookingView);
+router.get('/booking/:id', adminBookingController.detailBooking);
+router.post('/booking/:id/confirmation', adminBookingController.upDateBookingSuccess);
+router.post('/booking/:id/reject', adminBookingController.upDateBookingReject);
 
 module.exports = router;

@@ -1,0 +1,45 @@
+<%- include('../..//parts/header.ejs') %> 
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <%- include('../../parts/sidebar.ejs') %> 
+      
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+
+          <%- include('../../parts/navbar.ejs') %> 
+          
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <h1 class="h3 mb-4 text-gray-800">Detail Booking</h1>
+
+            <div class="row">
+              <div class="col-12 col-md-4">
+                <img src="http://localhost:3000/<%= booking.payments.transferProof %>" class="w-100" alt=""/>
+              </div>
+              <div class="col-12 col-md-8">
+                <%- include('tableDetail.ejs') %> 
+              </div>
+            </div>
+          </div>
+
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+        <%- include('../../parts/footer.ejs') %> 
+
+        
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <%- include('../../parts/modalLogout.ejs') %> 
+    <!-- End of Page Wrapper -->
+    <%- include('../../parts/script.ejs') %> 
+  </body>
+</html>

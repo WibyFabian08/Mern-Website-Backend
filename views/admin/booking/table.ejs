@@ -18,14 +18,26 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                </tr> -->
+        <% booking.forEach((data, index) => { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= data.bookingStartDate.toLocaleString().split(',')[0] %> s/d <%= data.bookingEndDate.toLocaleString().split(',')[0] %></td>
+            <td><%= data.item.title %></td>
+            <td><%= data.payments.transferFrom %></td>
+            <td><%= data.payments.transferFromBank %></td>
+            <td><%= data.payments.status %></td>
+            <td class="text-center">
+              <a
+                class="btn btn-success btn-edit"
+                href="/admin/booking/<%= data._id %>"
+                type="button"
+                data-id="<%= data._id %>"
+              >
+                Detail
+              </a>
+            </td>
+          </tr>
+          <% }) %>
       </tbody>
     </table>
   </div>
